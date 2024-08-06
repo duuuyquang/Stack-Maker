@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject winPanelObj;
     [SerializeField] private GameObject losePanelObj;
+    [SerializeField] private GameObject endPanelObj;
 
     [SerializeField] private TMP_Text textStack;
     [SerializeField] private TMP_Text textLevel;
@@ -43,23 +44,43 @@ public class GameManager : MonoBehaviour
     {
         winPanelObj.SetActive(false);
         losePanelObj.SetActive(false);
+        endPanelObj.SetActive(false);
     }
 
     public void OnInitNextLevel()
     {
-        player.OnInit();
-        LevelManager.Instance.LoadMapByLevel(++LevelManager.Instance.CurLevel);
-        UpdateTextStack();
-        UpdateTextLevel();
-        HidePanel();
-        cameraFollower.OnInit();
-        Invoke(nameof(OnInit), 0.1f);
+        if(LevelManager.Instance.CurLevel + 1 > LevelManager.MAX_LEVEL)
+        {
+            HidePanel();
+            ShowEndPanel();
+        } 
+        else
+        {
+            player.OnInit();
+            LevelManager.Instance.LoadMapByLevel(++LevelManager.Instance.CurLevel);
+            UpdateTextStack();
+            UpdateTextLevel();
+            HidePanel();
+            cameraFollower.OnInit();
+            Invoke(nameof(OnInit), 0.1f);
+        }
     }
 
     public void OnInitCurrentLevel()
     {
         player.OnInit();
         LevelManager.Instance.LoadMapByLevel(LevelManager.Instance.CurLevel);
+        UpdateTextStack();
+        UpdateTextLevel();
+        HidePanel();
+        cameraFollower.OnInit();
+        Invoke(nameof(OnInit), 0.5f);
+    }
+
+    public void OnInitLevel(int level)
+    {
+        player.OnInit();
+        LevelManager.Instance.LoadMapByLevel(0);
         UpdateTextStack();
         UpdateTextLevel();
         HidePanel();
@@ -91,4 +112,9 @@ public class GameManager : MonoBehaviour
     {
         losePanelObj.SetActive(true);
     }
+
+    public void ShowEndPanel()
+    {
+        endPanelObj.SetActive(true);
+    }    
 }

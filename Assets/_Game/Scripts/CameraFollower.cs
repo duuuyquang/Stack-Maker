@@ -14,7 +14,6 @@ public class CameraFollower : MonoBehaviour
     void LateUpdate()
     {
         targetPos = targetObj.transform.position + offset;
-        //transform.position = Vector3.Lerp(transform.position, targetPos, 2f * Time.deltaTime);
         transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
     }
 

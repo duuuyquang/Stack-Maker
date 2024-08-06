@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -9,7 +7,7 @@ public class LevelManager : MonoBehaviour
 
     private int curLevel = 0;
 
-    private const int MAX_LEVEL = 3;
+    public const int MAX_LEVEL = 3;
 
     public int CurLevel { get { return curLevel; } set { curLevel = value; } }
 
@@ -26,9 +24,9 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(curLevelObj.gameObject);
         }
-
+        CurLevel = level;
         Object temp = Resources.Load("Level/Level" + level);
-        if (temp == null || level > MAX_LEVEL)
+        if (temp == null)
         {
             CurLevel = 1;
             temp = Resources.Load("Level/Level" + CurLevel);
